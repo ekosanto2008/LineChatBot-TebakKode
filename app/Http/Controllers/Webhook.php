@@ -62,8 +62,8 @@ class Webhook extends Controller
         $this->questionGateway = $questionGateway;
  
         // create bot object
-        $httpClient = new CurlHTTPClient(getenv('R1yEgM0GsKiSclIm+JqJQZ2bh7LH0E1/JJRzna4cWZ/4YI7ZMqvhTBbWgytKbGD7UlqunqOtEv4lfZKENzd1dsTEr0j4O31bMR3zb06XFkyuibPdrZtjqHVUhp+XVsNMrefbWOvVEpWKdmTu/AxstAdB04t89/1O/w1cDnyilFU='));
-        $this->bot  = new LINEBot($httpClient, ['channelSecret' => getenv('8038993a6a8320c6cf8563ef943f97c6')]);
+        $httpClient = new CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
+        $this->bot  = new LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
     }
 
     public function __invoke()

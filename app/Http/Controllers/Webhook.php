@@ -53,7 +53,14 @@ class Webhook extends Controller
     private $user;
  
  
-    public function __construct(Request $request,Response $response,Logger $logger,EventLogGateway $logGateway,UserGateway $userGateway,QuestionGateway $questionGateway) {
+    public function __construct(
+        Request $request,
+        Response $response,
+        Logger $logger,
+        EventLogGateway $logGateway,
+        UserGateway $userGateway,
+        QuestionGateway $questionGateway
+    ) {
         $this->request = $request;
         $this->response = $response;
         $this->logger = $logger;

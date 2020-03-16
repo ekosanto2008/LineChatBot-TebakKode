@@ -1,1 +1,1 @@
-web: $(composer config bin-dir)/heroku-php-apache2 /ChatBotLine
+web: $(composer config bin-dir)/heroku-php-apache2 /webhook

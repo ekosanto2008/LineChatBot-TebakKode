@@ -53,38 +53,38 @@ class Webhook extends Controller
     private $user;
  
  
-    public function __construct(
-        Request $request,
-        Response $response,
-        Logger $logger,
-        EventLogGateway $logGateway,
-        UserGateway $userGateway,
-        QuestionGateway $questionGateway
-    ) {
-        $this->request = $request;
-        $this->response = $response;
-        $this->logger = $logger;
-        $this->logGateway = $logGateway;
-        $this->userGateway = $userGateway;
-        $this->questionGateway = $questionGateway;
- 
-        // create bot object
-        $httpClient = new CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
-        $this->bot  = new LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
-    }
+        public function __construct(
+            Request $request,
+            Response $response,
+            Logger $logger,
+            EventLogGateway $logGateway,
+            UserGateway $userGateway,
+            QuestionGateway $questionGateway
+        ) {
+            $this->request = $request;
+            $this->response = $response;
+            $this->logger = $logger;
+            $this->logGateway = $logGateway;
+            $this->userGateway = $userGateway;
+            $this->questionGateway = $questionGateway;
+     
+            // create bot object
+            $httpClient = new CurlHTTPClient(getenv('CHANNEL_ACCESS_TOKEN'));
+            $this->bot  = new LINEBot($httpClient, ['channelSecret' => getenv('CHANNEL_SECRET')]);
+        }
 
-    public function __invoke()
-{
-    // get request
-    $body = $this->request->all();
- 
-    // debuging data
-    $this->logger->debug('Body', $body);
- 
-    // save log
-    $signature = $this->request->server('HTTP_X_LINE_SIGNATURE') ?: '-';
-    $this->logGateway->saveLog($signature, json_encode($body, true));
- 
-    return $this->handleEvents();
-}
+            public function __invoke()
+        {
+            // get request
+            $body = $this->request->all();
+         
+            // debuging data
+            $this->logger->debug('Body', $body);
+         
+            // save log
+            $signature = $this->request->server('HTTP_X_LINE_SIGNATURE') ?: '-';
+            $this->logGateway->saveLog($signature, json_encode($body, true));
+         
+            return $this->handleEvents();
+        }
 }

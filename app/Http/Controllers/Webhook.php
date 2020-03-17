@@ -133,8 +133,13 @@ class Webhook extends Controller
     
             // create welcome message
             $message  = "Salam kenal, " . $profile['displayName'] . "!\n";
-            $message .= "Silakan kirim pesan \"MULAI\" untuk memulai kuis Tebak Kode. \n";
-            $message .= "jkt 48 \n";
+            $message .= "Silakan pilih \"KOTA\" untuk memulai perjalanan. \n";
+            $message .= "Aku akan menunjukan tempat wisata yang bagus. \n";
+            $message .= "1. Jakarta \n";
+            $message .= "2. Bandung \n";
+            $message .= "3. Yogyakarta \n";
+            $message .= "4. Malang \n";
+            $message .= "5. Bali \n";
             $textMessageBuilder = new TextMessageBuilder($message);
     
             // create sticker message

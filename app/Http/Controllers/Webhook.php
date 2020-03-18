@@ -262,3 +262,4 @@ private function checkAnswer($message, $replyToken)
         $this->userGateway->setUserProgress($this->user['user_id'], 0);
     }
 }
+}

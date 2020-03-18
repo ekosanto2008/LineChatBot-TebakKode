@@ -193,7 +193,7 @@ class Webhook extends Controller
         $stickerMessageBuilder = new StickerMessageBuilder(1, 106);
     
         // create text message
-        $message = 'Silakan kirim pesan "MULAI" untuk memulai kuis.';
+        $message = 'Silakan pilih "KOTA" untuk memulai perjalanan.';
         $textMessageBuilder = new TextMessageBuilder($message);
     
         // merge all message
@@ -205,67 +205,67 @@ class Webhook extends Controller
         $this->bot->replyMessage($event['replyToken'], $multiMessageBuilder);
     }
 
-    private function sendQuestion($replyToken, $questionNum=1)
-    {
-        // get question from database
-        $question = $this->questionGateway->getQuestion($questionNum);
+    // private function sendQuestion($replyToken, $questionNum=1)
+    // {
+    //     // get question from database
+    //     $question = $this->questionGateway->getQuestion($questionNum);
     
-        // prepare answer options
-        for($opsi = "a"; $opsi <= "d"; $opsi++) {
-            if(!empty($question['option_'.$opsi]))
-                $options[] = new MessageTemplateActionBuilder($question['option_'.$opsi], $question['option_'.$opsi]);
-        }
+    //     // prepare answer options
+    //     for($opsi = "a"; $opsi <= "d"; $opsi++) {
+    //         if(!empty($question['option_'.$opsi]))
+    //             $options[] = new MessageTemplateActionBuilder($question['option_'.$opsi], $question['option_'.$opsi]);
+    //     }
     
-        // prepare button template
-        $buttonTemplate = new ButtonTemplateBuilder($question['number']."/10", $question['text'], $question['image'], $options);
+    //     // prepare button template
+    //     $buttonTemplate = new ButtonTemplateBuilder($question['number']."/10", $question['text'], $question['image'], $options);
     
-        // build message
-        $messageBuilder = new TemplateMessageBuilder("Gunakan mobile app untuk melihat soal", $buttonTemplate);
+    //     // build message
+    //     $messageBuilder = new TemplateMessageBuilder("Gunakan mobile app untuk melihat soal", $buttonTemplate);
     
-        // send message
-        $response = $this->bot->replyMessage($replyToken, $messageBuilder);
-    }
+    //     // send message
+    //     $response = $this->bot->replyMessage($replyToken, $messageBuilder);
+    // }
 
-    private function checkAnswer($message, $replyToken)
-    {
-        // if answer is true, increment score
-        if($this->questionGateway->isAnswerEqual($this->user['number'], $message)){
-            $this->user['score']++;
-            $this->userGateway->setScore($this->user['user_id'], $this->user['score']);
-        }
+    // private function checkAnswer($message, $replyToken)
+    // {
+    //     // if answer is true, increment score
+    //     if($this->questionGateway->isAnswerEqual($this->user['number'], $message)){
+    //         $this->user['score']++;
+    //         $this->userGateway->setScore($this->user['user_id'], $this->user['score']);
+    //     }
     
-        if($this->user['number'] < 10)
-        {
-            // update number progress
-            $this->userGateway->setUserProgress($this->user['user_id'], $this->user['number'] + 1);
+    //     if($this->user['number'] < 10)
+    //     {
+    //         // update number progress
+    //         $this->userGateway->setUserProgress($this->user['user_id'], $this->user['number'] + 1);
     
-            // send next question
-            $this->sendQuestion($replyToken, $this->user['number'] + 1);
-        }
-        else {
-            // create user score message
-            $message = 'Skormu '. $this->user['score'];
-            $textMessageBuilder1 = new TextMessageBuilder($message);
+    //         // send next question
+    //         $this->sendQuestion($replyToken, $this->user['number'] + 1);
+    //     }
+    //     else {
+    //         // create user score message
+    //         $message = 'Skormu '. $this->user['score'];
+    //         $textMessageBuilder1 = new TextMessageBuilder($message);
     
-            // create sticker message
-            $stickerId = ($this->user['score'] < 8) ? 100 : 114;
-            $stickerMessageBuilder = new StickerMessageBuilder(1, $stickerId);
+    //         // create sticker message
+    //         $stickerId = ($this->user['score'] < 8) ? 100 : 114;
+    //         $stickerMessageBuilder = new StickerMessageBuilder(1, $stickerId);
     
-            // create play again message
-            $message = ($this->user['score'] < 8) ?
-                'Wkwkwk! Nyerah? Ketik "MULAI" untuk bermain lagi!':
-                'Great! Mantap bro! Ketik "MULAI" untuk bermain lagi!';
-            $textMessageBuilder2 = new TextMessageBuilder($message);
+    //         // create play again message
+    //         $message = ($this->user['score'] < 8) ?
+    //             'Wkwkwk! Nyerah? Ketik "MULAI" untuk bermain lagi!':
+    //             'Great! Mantap bro! Ketik "MULAI" untuk bermain lagi!';
+    //         $textMessageBuilder2 = new TextMessageBuilder($message);
     
-            // merge all message
-            $multiMessageBuilder = new MultiMessageBuilder();
-            $multiMessageBuilder->add($textMessageBuilder1);
-            $multiMessageBuilder->add($stickerMessageBuilder);
-            $multiMessageBuilder->add($textMessageBuilder2);
+    //         // merge all message
+    //         $multiMessageBuilder = new MultiMessageBuilder();
+    //         $multiMessageBuilder->add($textMessageBuilder1);
+    //         $multiMessageBuilder->add($stickerMessageBuilder);
+    //         $multiMessageBuilder->add($textMessageBuilder2);
     
-            // send reply message
-            $this->bot->replyMessage($replyToken, $multiMessageBuilder);
-            $this->userGateway->setUserProgress($this->user['user_id'], 0);
-        }
-    }
+    //         // send reply message
+    //         $this->bot->replyMessage($replyToken, $multiMessageBuilder);
+    //         $this->userGateway->setUserProgress($this->user['user_id'], 0);
+    //     }
+    // }
 }

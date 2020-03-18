@@ -1,4 +1,4 @@
-![Sertifikat](https://drive.google.com/uc?export=view&id=15hNytsD_9iKYRQ2-hCfEeRzTqzI1qm5y)
+![ScreenShot](https://drive.google.com/uc?export=view&id=15hNytsD_9iKYRQ2-hCfEeRzTqzI1qm5y)
 
 # Lumen PHP Framework
 

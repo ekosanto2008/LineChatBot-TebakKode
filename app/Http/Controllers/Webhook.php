@@ -125,36 +125,36 @@ class Webhook extends Controller
     }
 
     private function followCallback($event)
-{
-    $res = $this->bot->getProfile($event['source']['userId']);
-    if ($res->isSucceeded())
     {
-        $profile = $res->getJSONDecodedBody();
- 
-        // create welcome message
-        $message  = "Salam kenal, " . $profile['displayName'] . "!\n";
-        $message .= "Silakan kirim pesan \"MULAI\" untuk memulai kuis Tebak Kode.";
-        $textMessageBuilder = new TextMessageBuilder($message);
- 
-        // create sticker message
-        $stickerMessageBuilder = new StickerMessageBuilder(1, 3);
- 
-        // merge all message
-        $multiMessageBuilder = new MultiMessageBuilder();
-        $multiMessageBuilder->add($textMessageBuilder);
-        $multiMessageBuilder->add($stickerMessageBuilder);
- 
-        // send reply message
-        $this->bot->replyMessage($event['replyToken'], $multiMessageBuilder);
- 
-        // save user data
-        $this->userGateway->saveUser(
-            $profile['userId'],
-            $profile['displayName']
-        );
- 
+        $res = $this->bot->getProfile($event['source']['userId']);
+        if ($res->isSucceeded())
+        {
+            $profile = $res->getJSONDecodedBody();
+    
+            // create welcome message
+            $message  = "Salam kenal, " . $profile['displayName'] . "!\n";
+            $message .= "Silakan kirim pesan \"MULAI\" untuk memulai kuis Tebak Kode.";
+            $textMessageBuilder = new TextMessageBuilder($message);
+    
+            // create sticker message
+            $stickerMessageBuilder = new StickerMessageBuilder(1, 3);
+    
+            // merge all message
+            $multiMessageBuilder = new MultiMessageBuilder();
+            $multiMessageBuilder->add($textMessageBuilder);
+            $multiMessageBuilder->add($stickerMessageBuilder);
+    
+            // send reply message
+            $this->bot->replyMessage($event['replyToken'], $multiMessageBuilder);
+    
+            // save user data
+            $this->userGateway->saveUser(
+                $profile['userId'],
+                $profile['displayName']
+            );
+    
+        }
     }
-}
 
     private function textMessage($event)
     {
@@ -185,16 +185,16 @@ class Webhook extends Controller
     {
         // create sticker message
         $stickerMessageBuilder = new StickerMessageBuilder(1, 106);
-     
+    
         // create text message
         $message = 'Silakan kirim pesan "MULAI" untuk memulai kuis.';
         $textMessageBuilder = new TextMessageBuilder($message);
-     
+    
         // merge all message
         $multiMessageBuilder = new MultiMessageBuilder();
         $multiMessageBuilder->add($stickerMessageBuilder);
         $multiMessageBuilder->add($textMessageBuilder);
-     
+    
         // send message
         $this->bot->replyMessage($event['replyToken'], $multiMessageBuilder);
     }
